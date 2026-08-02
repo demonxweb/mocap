@@ -95,7 +95,16 @@ def main():
     lora_config = LoraConfig(
         r=16,
         lora_alpha=16,
-        target_modules=["to_q", "to_k", "to_v", "to_out.0", "add_q_proj", "add_k_proj", "add_v_proj"],
+        #target_modules=["to_q", "to_k", "to_v", "to_out.0", "add_q_proj", "add_k_proj", "add_v_proj"],
+        target_modules=[
+            # 標準注意力層（負責基本的畫質與形體結構）
+            "to_q", "to_k", "to_v", "to_out.0", 
+            # 額外條件/多圖特徵對齊注意力層（極為關鍵！負責讀取並融合多張參考圖的特徵）
+            "add_q_proj", "add_k_proj", "add_v_proj", "to_add_out",
+            # 前饋網路層（負責風格、色彩與細節的深度微調）
+            "linear_in", "linear_out",
+            "ff_context.linear_in", "ff_context.linear_out"
+        ],
         lora_dropout=0.0,
         bias="none",
     )
