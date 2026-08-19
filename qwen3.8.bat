@@ -1,0 +1,22 @@
+@echo off
+llama-server.exe ^
+-m Qwen3.8-27B-Q4_K_M.gguf ^
+-mm mmproj-BF16.gguf ^
+--ctx-size 262144 ^
+-fa on ^
+--cache-type-k q8_0 ^
+--cache-type-v q8_0 ^
+--jinja ^
+--chat-template-kwargs "{\"enable_thinking\": true, \"preserve_think\": false, \"reasoning_effort\": \"medium\"}" ^
+--no-mmap ^
+--kv-unified ^
+--fit off ^
+--no-context-shift ^
+--repeat-penalty 1.0 ^
+--metrics ^
+--parallel 2 ^
+--host 0.0.0.0 ^
+--port 8080 ^
+--temp 0.6 ^
+--top-p 0.5 ^
+--top-k 15
